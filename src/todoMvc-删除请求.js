@@ -5,6 +5,7 @@ import './App.css'
 // 1.找到对应的组件，把页面搭建起来
 // 2. table Xuanran chulai (发送请求(componentDidMount)， 拿到数据， 交给lsit （this.setState))
 // 3.删除功能（点击哪个用哪个id ， 调用删除接口， 重新拉取列表）
+// 4.搜索功能 （拿到关键词 调用接口获取列表数据）
 const { Search } = Input;
 class App extends React.Component {
   state = {
@@ -46,8 +47,9 @@ class App extends React.Component {
     console.log(value);
     // 搜索接口
     const res = await axios.get(`http://localhost:3001/data/?q=${value}`)
+    console.log(res)
     this.setState({
-      list:res.data
+      list: res.data
     })
   }
   // 删除
@@ -59,7 +61,7 @@ class App extends React.Component {
     // 重新获取列表
     this.loadList()
   }
-
+  
   // 加载列表
   loadList = async () => {
     const res = await axios.get('http://localhost:3001/data')

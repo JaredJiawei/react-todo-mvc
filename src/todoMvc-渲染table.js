@@ -1,10 +1,9 @@
-import { Input, Table, Popconfirm } from 'antd'
+import { Button, Input, Table } from 'antd'
 import axios from 'axios'
 import React from 'react'
 import './App.css'
 // 1.找到对应的组件，把页面搭建起来
 // 2. table Xuanran chulai (发送请求(componentDidMount)， 拿到数据， 交给lsit （this.setState))
-// 3.删除功能（点击哪个用哪个id ， 调用删除接口， 重新拉取列表）
 const { Search } = Input;
 class App extends React.Component {
   state = {
@@ -29,41 +28,22 @@ class App extends React.Component {
       },
       {
         title: '操作',
-        dataIndex: 'operation',
-        key: 'operation',
-        render: (text, record) =>
-        (
-          <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(text, record)}>
-            <a>Delete</a>
-          </Popconfirm>
-        )
+        dataIndex: 'do',
+        key: 'do',
       }
     ]
   }
 
   // 搜索
-  onSearch = async (value) => {
+  onSearch = (value) => {
     console.log(value);
-    // 搜索接口
-    const res = await axios.get(`http://localhost:3001/data/?q=${value}`)
-    this.setState({
-      list:res.data
-    })
   }
   // 删除
-  handleDelete = async (text, record) => {
-    console.log('开始删除',record) // record.id
-    console.log(record.id);
-    // 调用删除接口
-    await axios.delete(`http://localhost:3001/data/${record.id}`)
-    // 重新获取列表
-    this.loadList()
-  }
-
+  
   // 加载列表
   loadList = async () => {
     const res = await axios.get('http://localhost:3001/data')
-    //console.log(res)
+    console.log(res)
     this.setState({
       list: res.data
     })
